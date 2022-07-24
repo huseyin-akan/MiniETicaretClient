@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertifyOptions, AlertifyService, MessagePosition, MessageType } from 'src/app/services/admin/alertify.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { AlertifyService, MessagePosition, MessageType } from 'src/app/services/admin/alertify.service';
+import { CustomToastrService, ToastrMessagePosition, ToastrMessageType } from 'src/app/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-layout',
@@ -8,11 +11,17 @@ import { AlertifyOptions, AlertifyService, MessagePosition, MessageType } from '
 })
 export class LayoutComponent implements OnInit {
 
-  constructor(private alertifyService : AlertifyService) {    
+  constructor(
+    private alertifyService : AlertifyService,
+    private toastrService : CustomToastrService,
+    private toastr : ToastrService,
+    private spinner : NgxSpinnerService
+    ) {    
   }
 
   ngOnInit(): void {
-    this.alertifyService.message("Husolandınız", {messagePosition : MessagePosition.TopCenter});
+    this.alertifyService.message("Husolandınız", {messageType:MessageType.Message, messagePosition : MessagePosition.TopCenter});
+    this.toastrService.message("Husoka","Husolar", {messageType: ToastrMessageType.Error, position : ToastrMessagePosition.TopFullWidth});
   }
 
 }

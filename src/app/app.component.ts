@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+declare var $ :any;
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,10 @@ export class AppComponent {
   title = 'MiniETicaretClient';
   constructor(){
   }
+
+  
 }
+
+$.get("https://localhost:7105/api/Products/getall", (data) => {
+  console.log(data);
+});
