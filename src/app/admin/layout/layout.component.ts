@@ -21,7 +21,6 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.alertifyService.message("Husolandınız", {messageType:MessageType.Message, messagePosition : MessagePosition.TopCenter});
-    this.toastrService.message("Husoka","Husolar", {messageType: ToastrMessageType.Error, position : ToastrMessagePosition.TopFullWidth});
   }
 
 }
