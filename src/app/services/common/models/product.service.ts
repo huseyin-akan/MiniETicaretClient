@@ -1,17 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { ListProduct } from 'src/app/contracts/list-product';
 import { CreateProduct } from 'src/app/contracts/product';
 import { __values } from 'tslib';
+import { AlertifyService, MessageType } from '../../admin/alertify.service';
 import { HttpClientService } from '../http-client.service';
+import { IModelService } from './iModelService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ProductService implements IModelService{
 
-  constructor(private httpClient: HttpClientService) { }
+  constructor(private httpClient: HttpClientService    ,
+    private alertify : AlertifyService) { }
 
   createProduct(product:CreateProduct, successCallBack?:any, errorCallBack?: (errorMessage : string) => void ){
     this.httpClient.post({
@@ -19,11 +22,9 @@ export class ProductService {
       action : 'addproduct'
     }, product).subscribe({
       next: (response) => {
-        alert('başarılı');
         successCallBack();
       },
       error : (err : HttpErrorResponse) => {
-        alert('hata oluştu');
         const myError : Array<{key: string, value: Array<string>}>= err.error; 
         let message = "";
         myError.forEach( (v, index)  => {
@@ -32,23 +33,8 @@ export class ProductService {
           })
         }) 
         errorCallBack(message);      
-      },
-      complete : () => {
-        
       }
-    });
-
-    this.httpClient.post({
-      controller: 'products',
-      action : 'addproduct'
-    }, product).subscribe(
-      (response) => {
-
-      },
-      (err) => {
-        
-      }
-    );
+    });    
   }
 
   async getAllProducts(page: number = 0, size : number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage : string) => void) : Promise<{totalCount: number, result: ListProduct[]}>{
@@ -71,7 +57,8 @@ export class ProductService {
       action :"deleteproduct"
     }, id)
 
-    await firstValueFrom(deleteObservable);
-  }
-  
+    await lastValueFrom(deleteObservable)
+    .then()
+    .catch( (err: HttpErrorResponse )=> this.alertify.message('Ürün silerken hata oldu: ' + err.error, {messageType : MessageType.Success}));
+  }  
 }

@@ -15,11 +15,11 @@ declare var $: any;
 })
 export class ListComponent extends BaseComponent implements OnInit  {
 
-  constructor(spinner: NgxSpinnerService, private productService : ProductService, private alertify : AlertifyService) { 
+  constructor(spinner: NgxSpinnerService, public productService : ProductService, private alertify : AlertifyService) { 
     super(spinner);
   }
 
-  displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate' , 'updatedDate', 'delete'];
+  displayedColumns: string[] = ['name', 'stock', 'price', 'createdDate' , 'updatedDate', 'edit', 'delete'];
   dataSource :MatTableDataSource<ListProduct>= null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
