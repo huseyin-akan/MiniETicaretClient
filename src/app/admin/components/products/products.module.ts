@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
+import { FileuploadModule } from 'src/app/services/common/fileupload/fileupload.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dial
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    FileuploadModule
   ]
 })
 export class ProductsModule { }

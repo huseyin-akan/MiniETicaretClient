@@ -1,4 +1,3 @@
-import { ProductService } from 'src/app/services/common/models/product.service';
 import {
   Directive,
   ElementRef,
@@ -15,7 +14,6 @@ import {
 } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 import { IModelService } from 'src/app/services/common/models/iModelService';
-import { AlertifyService, MessageType } from 'src/app/services/admin/alertify.service';
 declare var $: any;
 
 @Directive({

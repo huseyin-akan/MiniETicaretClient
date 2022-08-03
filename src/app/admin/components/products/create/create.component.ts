@@ -3,6 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { CreateProduct } from 'src/app/contracts/product';
 import { AlertifyService, MessageType } from 'src/app/services/admin/alertify.service';
+import { FileUploadOptions } from 'src/app/services/common/fileupload/file-upload.component';
 import { ProductService } from 'src/app/services/common/models/product.service';
 
 @Component({
@@ -20,6 +21,10 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Output() uploadOptions: Partial<FileUploadOptions> = {
+    //52.41'de kaldık.
+  };
 
   @Output() createdProduct : EventEmitter<CreateProduct> = new EventEmitter();
 
