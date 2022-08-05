@@ -12,7 +12,7 @@ import {
   DeleteDialogComponent,
   DeleteState,
 } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
-import { HttpClientService } from 'src/app/services/common/http-client.service';
+import { DialogService } from 'src/app/services/common/dialog.service';
 import { IModelService } from 'src/app/services/common/models/iModelService';
 declare var $: any;
 
@@ -24,8 +24,8 @@ export class DeleteDirective {
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    private httpClient: HttpClientService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private dialogService : DialogService
   ) {
     const img = renderer.createElement('img');
     img.setAttribute('src', '../../../../../assets/delete.png');
@@ -46,26 +46,17 @@ export class DeleteDirective {
 
   @HostListener('click')
   async onClick() {
-    this.openDialog(async () => {
-      const td: HTMLTableCellElement = this.element.nativeElement;
+    this.dialogService.openDialog({
+      componentType : DeleteDialogComponent,
+      data : DeleteState.Yes,
+      afterClosed : () => {this.delete() }
+    });
+  }
+
+  async delete(){
+    const td: HTMLTableCellElement = this.element.nativeElement;
       const tr = td.parentElement;
 
-      // this.httpClient.delete({
-      //   controller: this.controllerForDel,
-      //   action: this.actionForDel
-      // }, this.id).subscribe({
-      //   next: (response) => {
-      //     $(tr).animate(
-      //       {
-      //         opacity: 0,
-      //         left: '+=50',
-      //         height: 'toggle',
-      //       },
-      //       700,
-      //       this.callbackForDel.emit()
-      //     );
-      //   }
-      // })
       await this.serviceForDel.delete(this.id);
       $(tr).animate(
         {
@@ -76,19 +67,5 @@ export class DeleteDirective {
         700,
         this.callbackForDel.emit()        
       );      
-    });
-  }
-
-  openDialog(afterClosed: any): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '250px',
-      data: DeleteState.Yes,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result == DeleteState.Yes) {
-        afterClosed();
-      }
-    });
   }
 }
