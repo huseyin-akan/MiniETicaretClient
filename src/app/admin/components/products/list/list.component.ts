@@ -1,3 +1,5 @@
+import { SelectProductImageDialogComponent } from './../../../../dialogs/select-product-image-dialog/select-product-image-dialog.component';
+import { DialogService } from './../../../../services/common/dialog.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +17,12 @@ declare var $: any;
 })
 export class ListComponent extends BaseComponent implements OnInit  {
 
-  constructor(spinner: NgxSpinnerService, public productService : ProductService, private alertify : AlertifyService) { 
+  constructor(
+    spinner: NgxSpinnerService,
+    public productService : ProductService,
+     private alertify : AlertifyService,
+     private dialogService : DialogService
+     ) { 
     super(spinner);
   }
 
@@ -49,6 +56,16 @@ export class ListComponent extends BaseComponent implements OnInit  {
     const img : HTMLImageElement = event.srcElement;
     const rowToDelete = img.parentElement.parentElement;
     $(rowToDelete).fadeOut(2000);
+  }
+
+  addProductImages(id : string){
+    this.dialogService.openDialog({
+      componentType : SelectProductImageDialogComponent,
+      data : id,
+      options: {
+        width: "1400px"
+      }
+    });
   }
 
 }

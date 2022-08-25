@@ -22,14 +22,6 @@ export class CreateComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Output() uploadOptions: Partial<FileUploadOptions> = {
-    action : 'uploadimage',
-    controller : 'products',
-    explanation: 'Resimleri sürükleyin ya da ekleyin...',
-    isAdminPage : true,
-    accept : ".jpg, .png, .jpeg"
-  };
-
   @Output() createdProduct : EventEmitter<CreateProduct> = new EventEmitter();
 
   create(name : HTMLInputElement, stock: HTMLInputElement, price: HTMLInputElement){

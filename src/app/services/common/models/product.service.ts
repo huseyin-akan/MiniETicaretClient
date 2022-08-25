@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
 import { ListProduct } from 'src/app/contracts/list-product';
+import { List_Product_Image } from 'src/app/contracts/list_product_image';
 import { CreateProduct } from 'src/app/contracts/product';
 import { __values } from 'tslib';
 import { AlertifyService, MessageType } from '../../admin/alertify.service';
@@ -60,5 +61,26 @@ export class ProductService implements IModelService{
     await lastValueFrom(deleteObservable)
     .then()
     .catch( (err: HttpErrorResponse )=> this.alertify.message('Ürün silerken hata oldu: ' + err.error, {messageType : MessageType.Success}));
-  }  
+  }
+
+  async readImages(id: string, successCallBack?: () => void): Promise<List_Product_Image[]> {
+    const getObservable: Observable<List_Product_Image[]> = this.httpClient.get<List_Product_Image[]>({
+      action: "getproductimages",
+      controller: "products"
+    }, id);
+
+    const images: List_Product_Image[] = await firstValueFrom(getObservable);
+    successCallBack();
+    return images;
+  }
+  
+  async deleteImage(id: string, imageId: string, successCallBack?: () => void) {
+    const deleteObservable = this.httpClient.delete({
+      action: "deleteproductimage",
+      controller: "products",
+      queryString: `imageId=${imageId}`
+    }, id)
+    await firstValueFrom(deleteObservable);
+    successCallBack();
+  }
 }

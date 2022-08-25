@@ -1,3 +1,13 @@
 table {
     width: 100%;
 }
+
+.table-icon:hover {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor : pointer;
+}
+
+#denemHusoka:hover{
+    background-color: aqua;
+}
