@@ -19,7 +19,7 @@ export class ProductService implements IModelService{
   createProduct(product:CreateProduct, successCallBack?:any, errorCallBack?: (errorMessage : string) => void ){
     this.httpClient.post({
       controller: 'products',
-      action : 'addproduct'
+      action : 'addproduct',
     }, product).subscribe({
       next: (response) => {
         successCallBack();
