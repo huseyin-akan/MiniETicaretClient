@@ -8,6 +8,8 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { AlertifyService, MessagePosition, MessageType } from '../../admin/alertify.service';
 import { CustomToastrService, ToastrMessagePosition, ToastrMessageType } from '../../ui/custom-toastr.service';
 import { HttpClientService } from '../http-client.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from 'src/app/base/base.component';
 
 @Component({
   selector: 'app-file-upload',
@@ -20,7 +22,8 @@ export class FileUploadComponent{
     private alertifyService : AlertifyService,
     private customToastrService : CustomToastrService,
     private dialog : MatDialog,
-    private dialogService : DialogService
+    private dialogService : DialogService,
+    private spinner : NgxSpinnerService
     ) { }
 
   public files: NgxFileDropEntry[];
@@ -43,7 +46,9 @@ export class FileUploadComponent{
     this.dialogService.openDialog({
       componentType : FileUploadDialogComponent,
       data : FileUploadDialogState.Yes,
-      afterClosed : () => {this.uploadFiles() }
+      afterClosed : () => {
+        this.spinner.show(SpinnerType.BallAtom);
+        this.uploadFiles() }
     });
   }
 
@@ -55,6 +60,7 @@ export class FileUploadComponent{
       headers: new HttpHeaders({"responseType" : "blob"})
     }, this.fileData).subscribe({
       next: (response) => {
+        this.spinner.hide(SpinnerType.BallAtom);
         if(this.fileUploadOptions.isAdminPage){
           this.alertifyService.message(this.successMessage, {dismissOthers : true, messageType : MessageType.Success, messagePosition : MessagePosition.TopRight})
         }else{
@@ -62,12 +68,14 @@ export class FileUploadComponent{
         }
       },
       error: (err) => {
+        this.spinner.hide(SpinnerType.BallAtom);
         if(this.fileUploadOptions.isAdminPage){
           this.alertifyService.message(this.errorMessage, {dismissOthers : true, messageType : MessageType.Error, messagePosition : MessagePosition.TopRight})
         }else{
           this.customToastrService.message(this.errorMessage, 'Yükleme Başarısız', {messageType : ToastrMessageType.Error, position : ToastrMessagePosition.TopRight})
         }
-      }
+      },
+      complete : () => { }
     });
   }
 
