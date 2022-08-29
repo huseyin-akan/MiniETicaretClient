@@ -38,8 +38,8 @@ export class ProductService implements IModelService{
     });    
   }
 
-  async getAllProducts(page: number = 0, size : number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage : string) => void) : Promise<{totalCount: number, result: ListProduct[]}>{
-    const promiseData : Promise<{totalCount: number, result: ListProduct[]}> = this.httpClient.get<{totalCount: number, result: ListProduct[]}>({
+  async getAllProducts(page: number = 0, size : number = 5, successCallBack?: () => void, errorCallBack?: (errorMessage : string) => void) : Promise<{totalCount: number, products: ListProduct[]}>{
+    const promiseData : Promise<{totalCount: number, products: ListProduct[]}> = this.httpClient.get<{totalCount: number, products: ListProduct[]}>({
       controller: 'products',
       action : 'getall',
       queryString : `page=${page}&size=${size}`

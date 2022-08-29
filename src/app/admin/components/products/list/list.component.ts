@@ -37,13 +37,13 @@ export class ListComponent extends BaseComponent implements OnInit  {
 
   async getProducts(){
     this.showSpinner(SpinnerType.BallAtom);
-    let allProducts : {totalCount: number, result: ListProduct[]} = await this.productService.getAllProducts(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,
+    let allProducts : {totalCount: number, products: ListProduct[]} = await this.productService.getAllProducts(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,
     () => this.hideSpinner(SpinnerType.BallAtom) ,
     (errMsg) => {
       this.alertify.message(errMsg, {messageType : MessageType.Error, dismissOthers : true, messagePosition : MessagePosition.TopRight});
     } 
     );
-    this.dataSource = new MatTableDataSource<ListProduct>(allProducts.result);
+    this.dataSource = new MatTableDataSource<ListProduct>(allProducts.products);
     this.paginator.length = allProducts.totalCount;
     //this.dataSource.paginator = this.paginator;
   }
