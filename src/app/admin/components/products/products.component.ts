@@ -16,7 +16,6 @@ export class ProductsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showSpinner(SpinnerType.BallAtom)
   }
 
   @ViewChild(ListComponent) listComponents : ListComponent;
